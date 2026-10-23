@@ -22,17 +22,12 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      - name: Install Gradle and Generate Wrapper
+      - name: Install Gradle and Build Directly
         run: |
           sudo apt-get update && sudo apt-get install -y gradle
           cd source_dir/KTX_Direct_Android
-          gradle wrapper
-          chmod +x gradlew
+          gradle assembleDebug
           
-      - name: Build Debug APK with Gradle
-        run: ./gradlew assembleDebug
-        working-directory: source_dir/KTX_Direct_Android
-        
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
