@@ -11,12 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Unzip source file
+      - name: Unzip source file and check contents
         run: |
           mkdir -p source_dir
           unzip -q KTX_Direct_Android.zip -d source_dir
-          echo "=== 압축 해제된 폴더 구조 확인 ==="
-          find source_dir -maxdepth 3
+          echo "=== 디렉토리 전체 파일 목록 ==="
+          ls -R source_dir
           
       - name: set up JDK 17
         uses: actions/setup-java@v4
