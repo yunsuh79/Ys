@@ -26,14 +26,14 @@ jobs:
         run: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > source_dir/KTX_Direct_Android/local.properties
           
-      - name: Download and Setup Gradle
+      - name: Download and Setup Gradle (v8.0)
         run: |
-          wget -q https://services.gradle.org/distributions/gradle-8.7-bin.zip
-          unzip -q gradle-8.7-bin.zip
-          echo "$PWD/gradle-8.7/bin" >> $GITHUB_PATH
+          wget -q https://services.gradle.org/distributions/gradle-8.0-bin.zip
+          unzip -q gradle-8.0-bin.zip
+          echo "$PWD/gradle-8.0/bin" >> $GITHUB_PATH
           
       - name: Build with Gradle
-        run: gradle assembleDebug --stacktrace
+        run: gradle assembleDebug --info
         working-directory: source_dir/KTX_Direct_Android
           
       - name: Upload APK Artifact
