@@ -22,7 +22,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      - name: Install Gradle and Build Directly
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Gradle and Build
         run: |
           sudo apt-get update && sudo apt-get install -y gradle
           cd source_dir/KTX_Direct_Android
