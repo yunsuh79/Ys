@@ -11,12 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Unzip source file and check contents
+      - name: Unzip source file
         run: |
           mkdir -p source_dir
           unzip -q KTX_Direct_Android.zip -d source_dir
-          echo "=== 디렉토리 전체 파일 목록 ==="
-          ls -R source_dir
           
       - name: set up JDK 17
         uses: actions/setup-java@v4
@@ -24,22 +22,19 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      - name: Find and Build with Gradle
+      - name: Install Gradle and Generate Wrapper
         run: |
-          GRADLEW_PATH=$(find source_dir -name "gradlew" | head -n 1)
-          if [ -z "$GRADLEW_PATH" ]; then
-            echo "Error: gradlew file not found!"
-            exit 1
-          fi
-          PROJECT_DIR=$(dirname "$GRADLEW_PATH")
-          echo "Found project directory: $PROJECT_DIR"
+          sudo apt-get update && sudo apt-get install -y gradle
+          cd source_dir/KTX_Direct_Android
+          gradle wrapper
+          chmod +x gradlew
           
-          chmod +x "$GRADLEW_PATH"
-          cd "$PROJECT_DIR"
-          ./gradlew assembleDebug
-          
+      - name: Build Debug APK with Gradle
+        run: ./gradlew assembleDebug
+        working-directory: source_dir/KTX_Direct_Android
+        
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: source_dir/**/app/build/outputs/apk/debug/app-debug.apk
+          path: source_dir/KTX_Direct_Android/app/build/outputs/apk/debug/app-debug.apk
