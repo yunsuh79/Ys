@@ -30,7 +30,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y gradle
           cd source_dir/KTX_Direct_Android
-          gradle assembleDebug
+          gradle assembleDebug --stacktrace
           
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
